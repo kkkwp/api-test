@@ -3,22 +3,23 @@ package com.kakao.apitest.youtube.controller;
 import com.kakao.apitest.youtube.dto.YouTubeDto;
 import com.kakao.apitest.youtube.service.YouTubeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class YouTubeController {
 
-	private final YouTubeService youTubeService;
-
 	@Autowired
-	public YouTubeController(final YouTubeService youTubeService) {
-		this.youTubeService = youTubeService;
-	}
+	YouTubeService youTubeService;
 
-	@GetMapping("/youtube")
-	public YouTubeDto Index() {
-		return youTubeService.get();
+	@RequestMapping(value = {"/youtube"}, method = RequestMethod.GET)
+	public @ResponseBody List<YouTubeDto> searchYouTube(
+			@RequestParam(value = "search") String search,
+			@RequestParam(value = "items", required = false, defaultValue = "5") String items) {
+
+		int max = Integer.parseInt(items);
+		return youTubeService.youtubeSearch(search, max);
 	}
 
 }
