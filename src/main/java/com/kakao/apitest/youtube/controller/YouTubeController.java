@@ -5,8 +5,6 @@ import com.kakao.apitest.youtube.service.YouTubeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/games")
 public class YouTubeController {
@@ -15,12 +13,10 @@ public class YouTubeController {
 	YouTubeService youTubeService;
 
 	@RequestMapping(value = {"/youtube"}, method = RequestMethod.GET)
-	public @ResponseBody List<YouTubeDto> searchYouTube(
-			@RequestParam(value = "search") String search,
-			@RequestParam(value = "items", required = false, defaultValue = "5") String items) {
+	public @ResponseBody YouTubeDto searchYouTube(
+			@RequestParam(value = "videoId") String videoId) {
 
-		int max = Integer.parseInt(items);
-		return youTubeService.youtubeSearch(search, max);
+		return youTubeService.get(videoId);
 	}
 
 }
